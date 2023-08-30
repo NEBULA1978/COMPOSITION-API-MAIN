@@ -4,12 +4,21 @@
         <input type="text" placeholder="Mensaje" v-model="message">
         <h3>Cantidad de caracteres {{ numberOfChars }} </h3>
 
-        <input type="file" @change="handleFileChange">
+        <div class="file-box">
+            <label for="fileInput" class="file-label">Seleccionar Archivo</label>
+            <input id="fileInput" type="file" @change="handleFileChange">
+            <div class="file-name">{{ fileName }}</div>
+        </div>
+
         <button @click="clearFileContent">Borrar Contenido de Archivo</button>
 
-        <div>
+        <div class="file-content-box">
             <h4>Contenido del Archivo:</h4>
             <pre>{{ fileContent }}</pre>
+            <div v-if="fileName" class="file-name-below">
+                <span>Nombre del Archivo:</span>
+                <div>{{ fileName }}</div>
+            </div>
         </div>
     </div>
 </template>
@@ -20,10 +29,12 @@ let message = ref('')
 const numberOfChars = computed(() => message.value.length)
 
 const fileContent = ref('')
+const fileName = ref('')
 
 const handleFileChange = event => {
     const file = event.target.files[0]
     if (file) {
+        fileName.value = file.name;
         const reader = new FileReader()
         reader.onload = event => {
             fileContent.value = event.target.result
@@ -34,7 +45,38 @@ const handleFileChange = event => {
 
 const clearFileContent = () => {
     fileContent.value = ''
+    fileName.value = ''
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.file-box {
+    border: 1px solid #ccc;
+    padding: 10px;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+.file-label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.file-name {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.file-content-box {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+.file-name-below {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #ccc;
+    text-align: center;
+}
+</style>
