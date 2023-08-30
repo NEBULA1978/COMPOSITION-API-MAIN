@@ -20,8 +20,9 @@
                 <pre>{{ file.content }}</pre>
 
                 <button @click="removeFile(index)">Eliminar Archivo</button>
-                <input type="file" @change="handleFileChange" class="add-file-input">
+                <input type="file" @change="addFileToEntry(index)" class="add-file-input">
             </div>
+            <button @click="addNewFile">Añadir Nuevo Archivo</button>
         </div>
     </div>
 </template>
@@ -50,6 +51,23 @@ const handleFileChange = event => {
 
 const removeFile = index => {
     fileList.value.splice(index, 1)
+}
+
+const addFileToEntry = index => {
+    const fileInput = event.target
+    const file = fileInput.files[0]
+    if (file) {
+        const reader = new FileReader()
+        reader.onload = event => {
+            fileList.value[index].name = file.name
+            fileList.value[index].content = event.target.result
+        }
+        reader.readAsText(file)
+    }
+}
+
+const addNewFile = () => {
+    fileList.value.push({ name: '', content: '' })
 }
 
 const clearFileContent = () => {
@@ -83,6 +101,10 @@ const clearFileContent = () => {
 }
 
 .add-file-input {
+    margin-top: 10px;
+}
+
+button {
     margin-top: 10px;
 }
 </style>
