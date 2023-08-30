@@ -13,12 +13,13 @@
         <button @click="clearFileContent">Borrar Contenido de Archivo</button>
 
         <div class="file-content-box">
-            <h4>Contenido del Archivo:</h4>
-            <pre>{{ fileContent }}</pre>
-            <div v-if="fileName" class="file-name-below">
-                <span>Nombre del Archivo:</span>
+            <div v-if="fileName" class="file-name-above">
+                <h4>Nombre del Archivo:</h4>
                 <div>{{ fileName }}</div>
             </div>
+
+            <h4>Contenido del Archivo:</h4>
+            <pre>{{ fileContent }}</pre>
         </div>
     </div>
 </template>
@@ -73,10 +74,10 @@ const clearFileContent = () => {
     margin-top: 10px;
 }
 
-.file-name-below {
-    margin-top: 10px;
-    padding-top: 10px;
-    border-top: 1px solid #ccc;
+.file-name-above {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ccc;
     text-align: center;
 }
 </style>
