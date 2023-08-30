@@ -20,6 +20,7 @@
                 <pre>{{ file.content }}</pre>
 
                 <button @click="removeFile(index)">Eliminar Archivo</button>
+                <input type="file" @change="handleFileChange" class="add-file-input">
             </div>
         </div>
     </div>
@@ -81,7 +82,7 @@ const clearFileContent = () => {
     margin-top: 10px;
 }
 
-button {
+.add-file-input {
     margin-top: 10px;
 }
 </style>
