@@ -7,19 +7,20 @@
         <div class="file-box">
             <label for="fileInput" class="file-label">Seleccionar Archivo</label>
             <input id="fileInput" type="file" @change="handleFileChange">
-            <div class="file-name">{{ fileName }}</div>
         </div>
 
         <button @click="clearFileContent">Borrar Contenido de Archivo</button>
 
-        <div class="file-content-box">
-            <div v-if="fileName" class="file-name-above">
+        <div class="file-content-box" v-if="fileList.length > 0">
+            <div v-for="(file, index) in fileList" :key="index" class="file-entry">
                 <h4>Nombre del Archivo:</h4>
-                <div>{{ fileName }}</div>
-            </div>
+                <div>{{ file.name }}</div>
 
-            <h4>Contenido del Archivo:</h4>
-            <pre>{{ fileContent }}</pre>
+                <h4>Contenido del Archivo:</h4>
+                <pre>{{ file.content }}</pre>
+
+                <button @click="removeFile(index)">Eliminar Archivo</button>
+            </div>
         </div>
     </div>
 </template>
@@ -29,24 +30,29 @@ import { ref, computed } from 'vue'
 let message = ref('')
 const numberOfChars = computed(() => message.value.length)
 
-const fileContent = ref('')
-const fileName = ref('')
+const fileList = ref([])
 
 const handleFileChange = event => {
     const file = event.target.files[0]
     if (file) {
-        fileName.value = file.name;
         const reader = new FileReader()
         reader.onload = event => {
-            fileContent.value = event.target.result
+            const fileData = {
+                name: file.name,
+                content: event.target.result
+            }
+            fileList.value.push(fileData)
         }
         reader.readAsText(file)
     }
 }
 
+const removeFile = index => {
+    fileList.value.splice(index, 1)
+}
+
 const clearFileContent = () => {
-    fileContent.value = ''
-    fileName.value = ''
+    fileList.value = []
 }
 </script>
 
@@ -63,21 +69,19 @@ const clearFileContent = () => {
     margin-bottom: 5px;
 }
 
-.file-name {
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
 .file-content-box {
     border: 1px solid #ccc;
     padding: 10px;
     margin-top: 10px;
 }
 
-.file-name-above {
-    margin-bottom: 10px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #ccc;
-    text-align: center;
+.file-entry {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+button {
+    margin-top: 10px;
 }
 </style>
