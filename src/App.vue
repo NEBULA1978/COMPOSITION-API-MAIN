@@ -1,14 +1,14 @@
 <template>
   <div>
-    <OptionApi />
-    <CompositonApiOpcionUno />
+    <!-- <OptionApi /> -->
+    <!-- <CompositonApiOpcionUno /> -->
     <CompositonApiOpcionDos />
   </div>
 </template>
 
 <script setup>
-  import OptionApi from './components/OptionApi.vue'
-  import CompositonApiOpcionUno from './components/CompositonApiOpcionUno.vue'
+  // import OptionApi from './components/OptionApi.vue'
+  // import CompositonApiOpcionUno from './components/CompositonApiOpcionUno.vue'
   import CompositonApiOpcionDos from './components/CompositionApiOpcionDos.vue'
 </script>
 
